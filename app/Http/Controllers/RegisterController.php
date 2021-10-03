@@ -19,7 +19,11 @@ class RegisterController extends Controller
         // Here the request is validated. The validator method is located
         // inside the RegisterController, and makes sure the name, email
         // password and password_confirmation fields are required.
-        $this->validator($request->all())->validate();
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'email|required|unique:users, email,',
+            'password' => 'required_with:password_confirmation|confirmed'
+        ]);
 
         // A Registered event is created and will trigger any relevant
         // observers, such as sending a confirmation email or any
